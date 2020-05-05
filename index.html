@@ -9,16 +9,125 @@
 </head>
 <body>
     
+    <!--Main Heading-->
+
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <h1 id="main-heading">Weather Dashboard</h1>
+            </div>
+        </div>
+    
+      
+        <div class="row">
+            <div class="col col-lg-3">
+
+
+        <!--Search Bar-->  
+
+                <h5>Search for a City</h5>
+
+                <!--Search Button-->
+
+                <div class="input-group mb-3">
+                    <input id="searchBar" type="text" class="form-control" placeholder="Location" aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <div class="input-group-append">
+                      <button class="btn btn-danger" type="button" id=" searchBtn button-addon2">Search</button>
+                    </div>
+                </div>
+
+                <!--Recently Searched Cities Aside-->
+
+                <div class="card" style="width: 18rem;">
+                    <div class="card-header">
+                      Recently Searched Places
+                    </div>
+                    <ul id="recentSearch" class="list-group list-group-flush">
+                      <li class="list-group-item">Minneapolis, MN</li>
+                      <li class="list-group-item">Dallas, TX</li>
+                      <li class="list-group-item">San Francisco, CA</li>
+                    </ul>
+                  </div>
+            </div>
+
+                  <!--Current Conditons Display-->
+
+            <div class="col">
+                <div id="currentConditions" class="card">
+                    <h5 class="card-header">Current Conditions</h5>
+                    <div class="card-body">
+                      <h3 class="card-title">Minneapolis, MN</h3>
+                      <p class="card-text">Temp: 54</p>
+                      <p class="card-text">Humidity: 43</p>
+                      <p class="card-text">Wind Speed: 12mph</p>
+                      <p class="card-text">UV Index: 9.49</p>
+                    </div>
+                  </div> 
+                  
+
+                  <!--5 Day Forecast-->
+
+                  <h4>5 Day Forecast:</h4>
+            
+            <div class="row">
+                <div id="dayOne" class="fiveDay col">
+                    <h5>Live Date</h5>
+                    Weird Symbol Thing
+                    <p>Temp: 85.45</p>
+                    <p>Humidity: 43%</p>
+                </div>
+
+                <div id="dayTwo" class="fiveDay col">
+                    <h5>Live Date</h5>
+                    Weird Symbol Thing
+                    <p>Temp: 85.45</p>
+                    <p>Humidity: 43%</p>
+                </div>
+
+                <div id="dayThree" class="fiveDay col">
+                    <h5>Live Date</h5>
+                    Weird Symbol Thing
+                    <p>Temp: 85.45</p>
+                    <p>Humidity: 43%</p>
+                </div>
+
+                <div id="dayFour" class="fiveDay col">
+                    <h5>Live Date</h5>
+                    Weird Symbol Thing
+                    <p>Temp: 85.45</p>
+                    <p>Humidity: 43%</p>
+                </div>
+
+                <div id="dayFive" class="fiveDay col">
+                    <h5>Live Date</h5>
+                    Weird Symbol Thing
+                    <p>Temp: 85.45</p>
+                    <p>Humidity: 43%</p>
+                </div>
+            </div>
+            
+            </div>
 
 
 
 
 
-
-
+        
 
 
     
+    </div>
+
+     
+
+
+
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
