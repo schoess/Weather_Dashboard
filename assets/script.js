@@ -5,19 +5,34 @@ function buildQueryURL() {
     var querySearch = $("#searchBar")
         .val()
         .trim();
-
+    var all = baseURL + querySearch + key;
     return baseURL + querySearch + key;
-    
 };
+
+
 $("#searchBtn").on("click", function(event) {
     event.preventDefault();
-
     var queryURL = buildQueryURL();
-
     console.log(queryURL);
-
     $.ajax({
         url: queryURL,
         method: "GET"
-    }).then(console.log());
+    }).then(function(response) {
+        console.log(response);
+    }).catch(err => {
+        // handle error here
+        throw new Error(err)
+    });
+
+//example methods to do the same thing
+    // fetch(queryURL)
+    //     .then(res => res.json())
+    //     .then(resJson => {
+    //         console.log(resJson)
+    //     })
+
+    // axios.get(queryURL)
+    //     .then(res => {
+    //         console.log(res.data)
+    //     })
 });
