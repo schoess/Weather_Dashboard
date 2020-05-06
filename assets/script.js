@@ -40,24 +40,26 @@ $("#searchBtn").on("click", function(event) {
         }).then(function oneCallWeather(response) {
             console.log(response);
             $("#uvIndex").text("UV Index: " + response.current.uvi);
+
+        
             //5 day date append
-            $("#d1Date").text(moment().add(1, 'days').calendar());
-            $("#d2Date").text(moment().add(2, 'days').calendar());
-            $("#d3Date").text(moment().add(3, 'days').calendar());
-            $("#d4Date").text(moment().add(4, 'days').calendar());
-            $("#d5Date").text(moment().add(5, 'days').calendar());
+            $("#d1Date").text(moment().add(1, 'days').format("l"));
+            $("#d2Date").text(moment().add(2, 'days').format("l"));
+            $("#d3Date").text(moment().add(3, 'days').format("l"));
+            $("#d4Date").text(moment().add(4, 'days').format("l"));
+            $("#d5Date").text(moment().add(5, 'days').format("l"));
             //all 5 temperature appends
-            $("#d1Temp").text("Temp: " + response.daily[0].temp.day);
-            $("#d2Temp").text("Temp: " + response.daily[1].temp.day);
-            $("#d3Temp").text("Temp: " + response.daily[2].temp.day);
-            $("#d4Temp").text("Temp: " + response.daily[3].temp.day);
-            $("#d5Temp").text("Temp: " + response.daily[4].temp.day);
+            $("#d1Temp").text("Temp: " + response.daily[1].temp.day);
+            $("#d2Temp").text("Temp: " + response.daily[2].temp.day);
+            $("#d3Temp").text("Temp: " + response.daily[3].temp.day);
+            $("#d4Temp").text("Temp: " + response.daily[4].temp.day);
+            $("#d5Temp").text("Temp: " + response.daily[5].temp.day);
             //all 5 humidity appends
-            $("#d1Humidity").text("Humidity: " + response.daily[0].humidity);
-            $("#d2Humidity").text("Humidity: " + response.daily[1].humidity);
-            $("#d3Humidity").text("Humidity: " + response.daily[2].humidity);
-            $("#d4Humidity").text("Humidity: " + response.daily[3].humidity);
-            $("#d5Humidity").text("Humidity: " + response.daily[4].humidity);
+            $("#d1Humidity").text("Humidity: " + response.daily[1].humidity);
+            $("#d2Humidity").text("Humidity: " + response.daily[2].humidity);
+            $("#d3Humidity").text("Humidity: " + response.daily[3].humidity);
+            $("#d4Humidity").text("Humidity: " + response.daily[4].humidity);
+            $("#d5Humidity").text("Humidity: " + response.daily[5].humidity);
 
         });
     //catches possible error and throws error code
