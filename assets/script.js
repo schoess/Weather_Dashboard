@@ -25,7 +25,7 @@ window.onload = displayCity();
 function conditionsIcon(response) {
     var weatherIcon = "";
     var clouds = response.current.clouds;
-    console.log(clouds);
+    var conditions = response.current.weather.main
 
     if (clouds < 30) {
         weatherIcon = $("<img class='icon' src='assets/images/iconfinder_weather_sun_sunny_hot_5719151.png'>");
@@ -33,13 +33,43 @@ function conditionsIcon(response) {
         weatherIcon = $("<img class='icon' src='assets/images/iconfinder_weather_sun_sunny_cloud_5719152.png'>");
     } else if (clouds > 70) {
         weatherIcon = $("<img class='icon' src='assets/images/iconfinder_weather_cloud_cloudy_5719165.png'>");
-    }
+    } else if (conditions === "Drizzle" || conditions === "Rain") {
+        weatherIcon = $("<img class='icon' src='iconfinder_weather_heavy_rain_cloud_5719160.png'>");
+    }   else if (conditions === "Snow") {
+        weatherIcon = $("<img class='icon' src='iconfinder_weather_winter_cold_5719150.png'>");
+    }   else if (conditions === "Thunderstorm") {
+        weatherIcon = $("<img class='icon' src='iconfinder_weather_heavy_rain_thunder_storm_5719159.png'>");
+    };
     //appends icon to page after weather is determined
     $("#cityName").append(weatherIcon);
 };
 
+function oneCallIcon(response) {
+    var weatherIcon = "";
+    var clouds = response.daily[0].clouds;
+    var conditions = response.daily[0].weather.main
 
 
+    if (clouds < 30) {
+        weatherIcon = $("<img class='icon' src='assets/images/iconfinder_weather_sun_sunny_hot_5719151.png'>");
+    } else if (clouds >= 30 && clouds <= 70) {
+        weatherIcon = $("<img class='icon' src='assets/images/iconfinder_weather_sun_sunny_cloud_5719152.png'>");
+    } else if (clouds > 70) {
+        weatherIcon = $("<img class='icon' src='assets/images/iconfinder_weather_cloud_cloudy_5719165.png'>");
+    } else if (conditions === "Drizzle" || conditions === "Rain") {
+        weatherIcon = $("<img class='icon' src='iconfinder_weather_heavy_rain_cloud_5719160.png'>");
+    }   else if (conditions === "Snow") {
+        weatherIcon = $("<img class='icon' src='iconfinder_weather_winter_cold_5719150.png'>");
+    }   else if (conditions === "Thunderstorm") {
+        weatherIcon = $("<img class='icon' src='iconfinder_weather_heavy_rain_thunder_storm_5719159.png'>");
+    };
+    //returns image
+    return weatherIcon;
+};
+
+
+
+//builds url for first API call
 function buildQueryURL() {
 
     var baseURL = "http://api.openweathermap.org/data/2.5/weather?q=";
@@ -51,6 +81,7 @@ function buildQueryURL() {
     return baseURL + querySearch + key;
 };
 
+//on button click, calls current weather API and sets user input city name to local storage
 $("#searchBtn").on("click", function(event) {
     event.preventDefault();
     storeCity();
@@ -101,6 +132,13 @@ $("#searchBtn").on("click", function(event) {
             $("#d3Date").text(moment().add(3, 'days').format("l"));
             $("#d4Date").text(moment().add(4, 'days').format("l"));
             $("#d5Date").text(moment().add(5, 'days').format("l"));
+            //
+            // var oneCallResponse = response.daily[i];
+            $("#d1Date").append(oneCallIcon(response));
+            $("#d2Date").append(oneCallIcon(response));
+            $("#d3Date").append(oneCallIcon(response));
+            $("#d4Date").append(oneCallIcon(response));
+            $("#d5Date").append(oneCallIcon(response));
             //all 5 temperature appends
             $("#d1Temp").text("Temp: " + response.daily[1].temp.day + " °F");
             $("#d2Temp").text("Temp: " + response.daily[2].temp.day + " °F");
