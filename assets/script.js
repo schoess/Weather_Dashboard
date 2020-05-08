@@ -1,3 +1,45 @@
+
+function storeCity() {
+    var cityName = $("#searchBar").value;
+    var cityArr = [];
+
+    cityArr.push(cityName);
+    localStorage.setItem("city", JSON.stringify(cityArr));
+    displayCity();
+}
+
+function displayCity() {
+    var displayCities = JSON.parse(localStorage.getItem("city"));
+
+    if (displayCities === false || displayCities === null) {
+
+    } else if (displayCities == true) {
+        displayCities.forEach(function(displayCity) {
+            $("#recentSearch").prepend("<li class='list-group-item'>" + displayCity + "</li>");
+
+    })}
+};
+// On page load, displays cities from local storage that have previously been searched
+window.onload = displayCity();
+//Determines which icon is displayed next to the city name 
+function conditionsIcon(response) {
+    var weatherIcon = "";
+    var clouds = response.current.clouds;
+    console.log(clouds);
+
+    if (clouds < 30) {
+        weatherIcon = $("<img class='icon' src='assets/images/iconfinder_weather_sun_sunny_hot_5719151.png'>");
+    } else if (clouds >= 30 && clouds <= 70) {
+        weatherIcon = $("<img class='icon' src='assets/images/iconfinder_weather_sun_sunny_cloud_5719152.png'>");
+    } else if (clouds > 70) {
+        weatherIcon = $("<img class='icon' src='assets/images/iconfinder_weather_cloud_cloudy_5719165.png'>");
+    }
+    //appends icon to page after weather is determined
+    $("#cityName").append(weatherIcon);
+};
+
+
+
 function buildQueryURL() {
 
     var baseURL = "http://api.openweathermap.org/data/2.5/weather?q=";
@@ -11,6 +53,7 @@ function buildQueryURL() {
 
 $("#searchBtn").on("click", function(event) {
     event.preventDefault();
+    storeCity();
     var queryURL = buildQueryURL();
     $.ajax({
         url: queryURL,
@@ -30,7 +73,6 @@ $("#searchBtn").on("click", function(event) {
         var ocLat = coord.lat;
         var ocLon = "&lon=" + coord.lon;
         var ocKey = "&units=imperial&appid=6c743e42a0f9ac97fab6ec81e5e3acc9";
-        console.log(ocBaseURL + ocLat + ocLon + ocKey);
         var oneCallURL = ocBaseURL + ocLat + ocLon + ocKey;
 
         $.ajax({
@@ -38,21 +80,8 @@ $("#searchBtn").on("click", function(event) {
             method: "GET"
         }).then(function oneCallWeather(response) {
             console.log(response);
+            conditionsIcon(response);
 
-            var weatherIcon = "";
-            var conditions = response.current.weather.main;
-
-            
-
-            if (conditions === "Clear") {
-                weatherIcon = $("<img class='icon' src='assets/images/iconfinder_weather_sun_sunny_hot_5719151.png>'");
-            } else if (conditions === "Clouds" && response.current.clouds <= 50) {
-                weatherIcon = $("<img class='icon' src='assets/images/iconfinder_weather_sun_sunny_cloud_5719152.png>'");
-            } else if (conditions === "Clouds" && response.current.clouds > 50) {
-                weatherIcon = $("<img class='icon' src='assets/images/iconfinder_weather_cloud_cloudy_5719165.png'>");
-            }
-
-            $("#cityName").append(weatherIcon);
             //changes color around UV Index based on how high or low it is
             var uvi = response.current.uvi
             if (uvi <= 3) {
