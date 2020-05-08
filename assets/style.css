@@ -14,12 +14,15 @@ Body Styles
 
 .fiveDay {
     border: black solid 1px;
-    background-color: red;
+    background-color: blue;
     margin: 10px;
     border-radius: 5px;
     padding-top: 12px;
 }
 
+.inline {
+    display: inline;
+}
 
 
 /*
@@ -30,8 +33,34 @@ Typography
 
 #main-heading {
     padding: 25px;
-    background-color: red;
+    background-color: blue;
     margin-bottom: 20px;
     border-radius: 5px;
 }
 
+.blueBox {
+    padding: 10px;
+    background-color: blue;
+    border-radius: 3px;
+}
+
+.yellowBox {
+    padding: 10px;
+    background-color: yellow;
+    border-radius: 3px;
+}
+
+.redBox {
+    padding: 10px;
+    background-color: red;
+    border-radius: 3px;
+}
+/*
+====================
+Image Styles
+====================
+*/
+
+.icon {
+    display: inline;
+}

@@ -16,17 +16,16 @@ $("#searchBtn").on("click", function(event) {
         url: queryURL,
         method: "GET"
     }).then(function currentWeather(response) {
-        //calls current weather API
-        $("#cityName").text(response.name);
-        $("#currentTemp").text("Temp: " + response.main.temp);
-        $("#currentHumidity").text("Humidity: " + response.main.humidity);
-        $("#currentWindSpeed").text("Wind Speed: " + response.wind.speed);
+
+
+//calls current weather API
+        $("#cityName").text(response.name + " " + moment().format('l'));
+        $("#currentTemp").text("Temp: " + response.main.temp + " °F");
+        $("#currentHumidity").text("Humidity: " + response.main.humidity + "%");
+        $("#currentWindSpeed").text("Wind Speed: " + response.wind.speed + " MPH");
         var coord = response.coord;
         //takes coordinates of city from first call and plugs them into the one-call 
         //API in order to get the 5 day forecast and the UV index
-        console.log(coord.lat);
-        console.log(coord.lon);
-
         var ocBaseURL = "http://api.openweathermap.org/data/2.5/onecall?lat=";
         var ocLat = coord.lat;
         var ocLon = "&lon=" + coord.lon;
@@ -39,7 +38,32 @@ $("#searchBtn").on("click", function(event) {
             method: "GET"
         }).then(function oneCallWeather(response) {
             console.log(response);
-            $("#uvIndex").text("UV Index: " + response.current.uvi);
+
+            var weatherIcon = "";
+            var conditions = response.current.weather.main;
+
+            
+
+            if (conditions === "Clear") {
+                weatherIcon = $("<img class='icon' src='assets/images/iconfinder_weather_sun_sunny_hot_5719151.png>'");
+            } else if (conditions === "Clouds" && response.current.clouds <= 50) {
+                weatherIcon = $("<img class='icon' src='assets/images/iconfinder_weather_sun_sunny_cloud_5719152.png>'");
+            } else if (conditions === "Clouds" && response.current.clouds > 50) {
+                weatherIcon = $("<img class='icon' src='assets/images/iconfinder_weather_cloud_cloudy_5719165.png'>");
+            }
+
+            $("#cityName").append(weatherIcon);
+            //changes color around UV Index based on how high or low it is
+            var uvi = response.current.uvi
+            if (uvi <= 3) {
+                $("#uvIndex").addClass("blueBox").removeClass("yellowBox").removeClass("redBox");
+            } else if (uvi > 3 && uvi < 7) {
+                $("#uvIndex").addClass("yellowBox").removeClass("redBox").removeClass("blueBox");
+            } else if (uvi >= 7) {
+                $("#uvIndex").addClass("redBox").removeClass("yellowBox").removeClass("blueBox");
+            }
+            //appends uvi to page
+            $("#uvIndex").text(response.current.uvi);
 
         
             //5 day date append
@@ -49,17 +73,17 @@ $("#searchBtn").on("click", function(event) {
             $("#d4Date").text(moment().add(4, 'days').format("l"));
             $("#d5Date").text(moment().add(5, 'days').format("l"));
             //all 5 temperature appends
-            $("#d1Temp").text("Temp: " + response.daily[1].temp.day);
-            $("#d2Temp").text("Temp: " + response.daily[2].temp.day);
-            $("#d3Temp").text("Temp: " + response.daily[3].temp.day);
-            $("#d4Temp").text("Temp: " + response.daily[4].temp.day);
-            $("#d5Temp").text("Temp: " + response.daily[5].temp.day);
+            $("#d1Temp").text("Temp: " + response.daily[1].temp.day + " °F");
+            $("#d2Temp").text("Temp: " + response.daily[2].temp.day + " °F");
+            $("#d3Temp").text("Temp: " + response.daily[3].temp.day + " °F");
+            $("#d4Temp").text("Temp: " + response.daily[4].temp.day + " °F");
+            $("#d5Temp").text("Temp: " + response.daily[5].temp.day + " °F");
             //all 5 humidity appends
-            $("#d1Humidity").text("Humidity: " + response.daily[1].humidity);
-            $("#d2Humidity").text("Humidity: " + response.daily[2].humidity);
-            $("#d3Humidity").text("Humidity: " + response.daily[3].humidity);
-            $("#d4Humidity").text("Humidity: " + response.daily[4].humidity);
-            $("#d5Humidity").text("Humidity: " + response.daily[5].humidity);
+            $("#d1Humidity").text("Humidity: " + response.daily[1].humidity + "%");
+            $("#d2Humidity").text("Humidity: " + response.daily[2].humidity + "%");
+            $("#d3Humidity").text("Humidity: " + response.daily[3].humidity + "%");
+            $("#d4Humidity").text("Humidity: " + response.daily[4].humidity + "%");
+            $("#d5Humidity").text("Humidity: " + response.daily[5].humidity + "%");
 
         });
     //catches possible error and throws error code
