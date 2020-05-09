@@ -44,7 +44,7 @@ function conditionsIcon(response) {
 //builds url for first API call
 function buildQueryURL() {
 
-    var baseURL = "http://api.openweathermap.org/data/2.5/weather?q=";
+    var baseURL = "https://api.openweathermap.org/data/2.5/weather?q=";
     var key = "&units=imperial&appid=6c743e42a0f9ac97fab6ec81e5e3acc9";
     var querySearch = $("#searchBar")
         .val()
@@ -72,7 +72,7 @@ $("#searchBtn").on("click", function(event) {
         var coord = response.coord;
         //takes coordinates of city from first call and plugs them into the one-call 
         //API in order to get the 5 day forecast and the UV index
-        var ocBaseURL = "http://api.openweathermap.org/data/2.5/onecall?lat=";
+        var ocBaseURL = "https://api.openweathermap.org/data/2.5/onecall?lat=";
         var ocLat = coord.lat;
         var ocLon = "&lon=" + coord.lon;
         var ocKey = "&units=imperial&appid=6c743e42a0f9ac97fab6ec81e5e3acc9";
