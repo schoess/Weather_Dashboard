@@ -1,22 +1,19 @@
 
-function storeCity() {
-    var cityName = $("#searchBar").value;
-    var cityArr = [];
+var cityArr = [];
 
+function storeCity() {
+    var cityName = $("#searchBar").val();
     cityArr.push(cityName);
     localStorage.setItem("city", JSON.stringify(cityArr));
     displayCity();
 }
 
 function displayCity() {
-    var displayCities = JSON.parse(localStorage.getItem("city"));
-
-    if (displayCities === false || displayCities === null) {
-
-    } else if (displayCities == true) {
+    if (localStorage.getItem("city") !== null) {
+        displayCities = JSON.parse(localStorage.getItem("city"));
+        $("#recentSearch").empty();
         displayCities.forEach(function(displayCity) {
-            $("#recentSearch").prepend("<li class='list-group-item'>" + displayCity + "</li>");
-
+        $("#recentSearch").prepend("<li class='list-group-item'>" + displayCity + "</li>");
     })}
 };
 // On page load, displays cities from local storage that have previously been searched
@@ -44,28 +41,27 @@ function conditionsIcon(response) {
     $("#cityName").append(weatherIcon);
 };
 
-function oneCallIcon(response) {
-    var weatherIcon = "";
-    var clouds = response.daily[0].clouds;
-    var conditions = response.daily[0].weather.main
+// function oneCallIcon(response) {
+//     var weatherIcon = "";
+//     var clouds = response.daily[0].clouds;
+//     var conditions = response.daily[0].weather.main
 
-
-    if (clouds < 30) {
-        weatherIcon = $("<img class='icon' src='assets/images/iconfinder_weather_sun_sunny_hot_5719151.png'>");
-    } else if (clouds >= 30 && clouds <= 70) {
-        weatherIcon = $("<img class='icon' src='assets/images/iconfinder_weather_sun_sunny_cloud_5719152.png'>");
-    } else if (clouds > 70) {
-        weatherIcon = $("<img class='icon' src='assets/images/iconfinder_weather_cloud_cloudy_5719165.png'>");
-    } else if (conditions === "Drizzle" || conditions === "Rain") {
-        weatherIcon = $("<img class='icon' src='iconfinder_weather_heavy_rain_cloud_5719160.png'>");
-    }   else if (conditions === "Snow") {
-        weatherIcon = $("<img class='icon' src='iconfinder_weather_winter_cold_5719150.png'>");
-    }   else if (conditions === "Thunderstorm") {
-        weatherIcon = $("<img class='icon' src='iconfinder_weather_heavy_rain_thunder_storm_5719159.png'>");
-    };
-    //returns image
-    return weatherIcon;
-};
+//     if (clouds < 30) {
+//         weatherIcon = $("<img class='icon' src='assets/images/iconfinder_weather_sun_sunny_hot_5719151.png'>");
+//     } else if (clouds >= 30 && clouds <= 70) {
+//         weatherIcon = $("<img class='icon' src='assets/images/iconfinder_weather_sun_sunny_cloud_5719152.png'>");
+//     } else if (clouds > 70) {
+//         weatherIcon = $("<img class='icon' src='assets/images/iconfinder_weather_cloud_cloudy_5719165.png'>");
+//     } else if (conditions === "Drizzle" || conditions === "Rain") {
+//         weatherIcon = $("<img class='icon' src='iconfinder_weather_heavy_rain_cloud_5719160.png'>");
+//     }   else if (conditions === "Snow") {
+//         weatherIcon = $("<img class='icon' src='iconfinder_weather_winter_cold_5719150.png'>");
+//     }   else if (conditions === "Thunderstorm") {
+//         weatherIcon = $("<img class='icon' src='iconfinder_weather_heavy_rain_thunder_storm_5719159.png'>");
+//     };
+//     //returns image
+//     return weatherIcon;
+// };
 
 
 
@@ -84,6 +80,7 @@ function buildQueryURL() {
 //on button click, calls current weather API and sets user input city name to local storage
 $("#searchBtn").on("click", function(event) {
     event.preventDefault();
+    //calls function to set city to local storage
     storeCity();
     var queryURL = buildQueryURL();
     $.ajax({
@@ -125,32 +122,45 @@ $("#searchBtn").on("click", function(event) {
             //appends uvi to page
             $("#uvIndex").text(response.current.uvi);
 
-        
-            //5 day date append
-            $("#d1Date").text(moment().add(1, 'days').format("l"));
-            $("#d2Date").text(moment().add(2, 'days').format("l"));
-            $("#d3Date").text(moment().add(3, 'days').format("l"));
-            $("#d4Date").text(moment().add(4, 'days').format("l"));
-            $("#d5Date").text(moment().add(5, 'days').format("l"));
-            //
-            // var oneCallResponse = response.daily[i];
-            $("#d1Date").append(oneCallIcon(response));
-            $("#d2Date").append(oneCallIcon(response));
-            $("#d3Date").append(oneCallIcon(response));
-            $("#d4Date").append(oneCallIcon(response));
-            $("#d5Date").append(oneCallIcon(response));
-            //all 5 temperature appends
-            $("#d1Temp").text("Temp: " + response.daily[1].temp.day + " °F");
-            $("#d2Temp").text("Temp: " + response.daily[2].temp.day + " °F");
-            $("#d3Temp").text("Temp: " + response.daily[3].temp.day + " °F");
-            $("#d4Temp").text("Temp: " + response.daily[4].temp.day + " °F");
-            $("#d5Temp").text("Temp: " + response.daily[5].temp.day + " °F");
-            //all 5 humidity appends
-            $("#d1Humidity").text("Humidity: " + response.daily[1].humidity + "%");
-            $("#d2Humidity").text("Humidity: " + response.daily[2].humidity + "%");
-            $("#d3Humidity").text("Humidity: " + response.daily[3].humidity + "%");
-            $("#d4Humidity").text("Humidity: " + response.daily[4].humidity + "%");
-            $("#d5Humidity").text("Humidity: " + response.daily[5].humidity + "%");
+         
+            $("#forecast").each(function () {
+                var i = 1
+                $(this).text(moment().add(i, 'days').format("l"));
+                var iconurl = "http://openweathermap.org/img/w/" + response.daily[0].weather.icon + ".png";
+                $(this).attr("src", iconurl);
+                $(this).text("Temp: " + response.daily[1].temp.day + " °F");
+                $(this).text("Humidity: " + response.daily[1].humidity + "%");
+                i++;
+            });
+
+
+            // //5 day date append
+            // $("#d1Date").text(moment().add(1, 'days').format("l"));
+            // $("#d2Date").text(moment().add(2, 'days').format("l"));
+            // $("#d3Date").text(moment().add(3, 'days').format("l"));
+            // $("#d4Date").text(moment().add(4, 'days').format("l"));
+            // $("#d5Date").text(moment().add(5, 'days').format("l"));
+
+            
+            // //
+            // // var oneCallResponse = response.daily[i]; APPENDS SYMBOL
+            // $("#d1Date").append(response.daily[0].weather.icon);
+            // $("#d2Date").append(response.daily[1].weather.icon);
+            // $("#d3Date").append(response.daily[2].weather.icon);
+            // $("#d4Date").append(response.daily[3].weather.icon);
+            // $("#d5Date").append(response.daily[4].weather.icon);
+            // //all 5 temperature appends
+            // $("#d1Temp").text("Temp: " + response.daily[1].temp.day + " °F");
+            // $("#d2Temp").text("Temp: " + response.daily[2].temp.day + " °F");
+            // $("#d3Temp").text("Temp: " + response.daily[3].temp.day + " °F");
+            // $("#d4Temp").text("Temp: " + response.daily[4].temp.day + " °F");
+            // $("#d5Temp").text("Temp: " + response.daily[5].temp.day + " °F");
+            // //all 5 humidity appends
+            // $("#d1Humidity").text("Humidity: " + response.daily[1].humidity + "%");
+            // $("#d2Humidity").text("Humidity: " + response.daily[2].humidity + "%");
+            // $("#d3Humidity").text("Humidity: " + response.daily[3].humidity + "%");
+            // $("#d4Humidity").text("Humidity: " + response.daily[4].humidity + "%");
+            // $("#d5Humidity").text("Humidity: " + response.daily[5].humidity + "%");
 
         });
     //catches possible error and throws error code

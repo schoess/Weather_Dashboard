@@ -39,21 +39,21 @@ Typography
 }
 
 .blueBox {
-    padding: 10px;
+    padding: 8px;
     background-color: blue;
-    border-radius: 3px;
+    border-radius: 5px;
 }
 
 .yellowBox {
-    padding: 10px;
+    padding: 8px;
     background-color: yellow;
-    border-radius: 3px;
+    border-radius: 5px;
 }
 
 .redBox {
-    padding: 10px;
+    padding: 8px;
     background-color: red;
-    border-radius: 3px;
+    border-radius: 5px;
 }
 /*
 ====================
